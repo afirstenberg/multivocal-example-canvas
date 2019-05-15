@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>multivocal-example-canvas</title>
+
+  <link rel="stylesheet" href="https://www.gstatic.com/assistant/immersivecanvas/css/styles.css">
+  <script type="text/javascript" src="https://www.gstatic.com/assistant/immersivecanvas/js/immersive_canvas_api.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <style>
+    html {
+      height: 100%;
+      display: flex;
+    }
+    body {
+      display: flex;
+      flex: 1;
+      margin: 0;
+    }
+    #empty {
+      position: relative;
+      flex: 1;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div id="empty" class="visible"></div>
+<div id="welcome" class="hidden">
+  <p>Welcome!</p>
+  <p>What is your favorite color?</p>
+</div>
+<div id="result" class="hidden">
+
+</div>
+
+<script>
+
+  function assistantUpdate( newState ){
+    console.log('assistantUpdate', JSON.stringify(newState,null,1));
+    state = newState;
+
+    // Change to whatever we should show indicated by the "show" state property
+    let show = state.show;
+    $('.visible').addClass('hidden').removeClass('visible');
+    $(`#${show}`).addClass('visible').removeClass('hidden');
+
+    // Clear out any results
+    if( show === 'result' ){
+      $('#result').html('<ul></ul>');
+    }
+  }
+
+  function assistantMark( markName ){
+    console.log('assistantMark', markName);
+
+    let val = state && state.marks && state.marks[markName];
+    if( val ){
+      $('#result ul').append(`<li>${val}</li>`)
+    } else {
+      //$('#result ul').append(`<li>--${markName}--</li>`)
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+
+    // Compute the available screen width
+    let empty = document.getElementById('empty');
+    window.immersiveCanvas = {
+      width: empty.clientWidth,
+      height: empty.clientHeight
+    };
+
+    window.assistantCanvas.ready({
+      onUpdate:  assistantUpdate,
+      onTtsMark: assistantMark
+    })
+  });
+</script>
+</body>
+</html>
