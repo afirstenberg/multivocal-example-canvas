@@ -5,7 +5,7 @@ const config = {
   Local: {
     en: {
       Response: {
-        "Action.multivocal.welcome": [
+        "Action.welcome": [
           {
             Template: {
               Text: "Hello. What is your favorite color?",
@@ -26,7 +26,7 @@ const config = {
           },
           {
             Template: {
-              Ssml: "I tend to think about <mark name='red'/>Red, <mark name='green'/>Green, and <mark name='blue'/>Blue",
+              Markdown: "I tend to think about [mark:'red']Red, [mark:'green']Green, and [mark:'blue']Blue.",
               Page: {
                 "marks": {
                   "red": "Red",
@@ -38,7 +38,7 @@ const config = {
           },
           {
             Template: {
-              Ssml: "Have you considered <mark name='cyan'/>Cyan, <mark name='magenta'/>Magenta, or <mark name='yellow'/>Yellow",
+              Markdown: "Have you considered [mark:'cyan']Cyan, [mark:'magenta']Magenta, or [mark:'yellow']Yellow.",
               Page: {
                 "marks": {
                   "cyan": "Cyan",
@@ -48,13 +48,24 @@ const config = {
               }
             }
           }
+        ],
+        "Action.input_unknown": [
+          "I'm not familiar with that color.",
+          "Is that a color? Let's try again.",
+          "I don't know a lot of colors, but I'm still learning."
+        ]
+      },
+      Suffix: {
+        "Action.color":[
+          "Give me another color, please.",
+          "Try me with a different color."
         ]
       }
     }
   },
   Setting: {
     Page: {
-      Url: "https://7905f075.ngrok.io/immersiveCanvas.html?session={{Session.StartTime}}"
+      Url: "https://{{Hostname}}/immersiveCanvas.html?session={{Session.StartTime}}"
     }
   }
 };
